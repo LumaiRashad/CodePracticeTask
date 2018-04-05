@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TaskDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AnswerDBTable">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AnswerString" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="QuestionID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuestionDBTable">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuestionString" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="UserTable">
+    <Key>
+      <PropertyRef Name="UserName" />
+    </Key>
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_AnswerDBTable_QuestionDBTable">
+    <End Role="QuestionDBTable" Type="Self.QuestionDBTable" Multiplicity="1" />
+    <End Role="AnswerDBTable" Type="Self.AnswerDBTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionDBTable">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AnswerDBTable">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestionDBTable_UserTable">
+    <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+    <End Role="QuestionDBTable" Type="Self.QuestionDBTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserTable">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="QuestionDBTable">
+        <PropertyRef Name="UserName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TaskDBModelStoreContainer">
+    <EntitySet Name="AnswerDBTable" EntityType="Self.AnswerDBTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuestionDBTable" EntityType="Self.QuestionDBTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_AnswerDBTable_QuestionDBTable" Association="Self.FK_AnswerDBTable_QuestionDBTable">
+      <End Role="QuestionDBTable" EntitySet="QuestionDBTable" />
+      <End Role="AnswerDBTable" EntitySet="AnswerDBTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuestionDBTable_UserTable" Association="Self.FK_QuestionDBTable_UserTable">
+      <End Role="UserTable" EntitySet="UserTable" />
+      <End Role="QuestionDBTable" EntitySet="QuestionDBTable" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

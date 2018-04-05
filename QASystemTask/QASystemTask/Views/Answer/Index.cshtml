@@ -1,0 +1,25 @@
+﻿@model QASystemTask.ViewModels.QuestionAnswerViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>The Question</h1>
+
+<div class="form.group" style="border: 0.5px solid grey; border-radius: 10px; height: 50px; padding: 1em; margin: 1em 3em; ">
+    <strong>@(String.Format("{0}", Model.Question.QuestionString))</strong>
+</div>
+
+<h1>Question's Answers</h1>
+
+@for (int i = 0; i< Model.Answers.Count(); i++)
+{      
+    <div class ="form.group" style ="border: 0.5px solid lightgrey; border-radius: 10px; height: 50px; padding: 1em; margin: 1em 3em; ">
+        @(String.Format("{0}- {1} ", i + 1, Model.Answers[i].AnswerString))
+    </div>
+}
+
+<script>
+    $(document)
+</script>
+
+

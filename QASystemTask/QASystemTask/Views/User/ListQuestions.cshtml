@@ -1,0 +1,32 @@
+﻿@model List<QASystemTask.Models.QuestionDBTable>
+@{
+    ViewBag.Title = "ListQuestions";
+}
+
+<h2>Your Questions List</h2>
+
+
+@for(int i =0; i<Model.Count(); i++)
+{
+    <div class="form.group" style="border: 0.5px solid grey; border-radius: 10px; height: 50px; padding: 1em; margin: 1em 3em;">
+        <strong> @Html.ActionLink(i + 1 + "- " + Model[i].QuestionString + "  ", "Index", "Answer", new { id = Model[i].ID }, new { })</strong>
+    </div>
+
+    using (Html.BeginForm("EditQuestion", "Question", new { id = Model[i].ID}))
+    { 
+     <div class="form.group" style= "margin: 1em 70em; ">
+        <button class="btn btn-primary" type="submit">
+            Edit Question
+        </button>
+    </div>
+    }
+    using (Html.BeginForm("DeleteQuestion", "Question", new { id = Model[i].ID}))
+    {
+     <div class="form.group" style= "margin: 1em 70em; ">
+        <button class="btn btn-primary" type="submit">
+            Delete Question
+        </button>
+    </div>
+    }
+}
+

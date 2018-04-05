@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TaskDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AnswerDBTable">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AnswerString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="QuestionID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="QuestionDBTable" Relationship="Self.FK_AnswerDBTable_QuestionDBTable" FromRole="AnswerDBTable" ToRole="QuestionDBTable" />
+  </EntityType>
+  <EntityType Name="QuestionDBTable">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuestionString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AnswerDBTables" Relationship="Self.FK_AnswerDBTable_QuestionDBTable" FromRole="QuestionDBTable" ToRole="AnswerDBTable" />
+    <NavigationProperty Name="UserTable" Relationship="Self.FK_QuestionDBTable_UserTable" FromRole="QuestionDBTable" ToRole="UserTable" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="UserTable">
+    <Key>
+      <PropertyRef Name="UserName" />
+    </Key>
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="QuestionDBTables" Relationship="Self.FK_QuestionDBTable_UserTable" FromRole="UserTable" ToRole="QuestionDBTable" />
+  </EntityType>
+  <Association Name="FK_AnswerDBTable_QuestionDBTable">
+    <End Role="QuestionDBTable" Type="Self.QuestionDBTable" Multiplicity="1" />
+    <End Role="AnswerDBTable" Type="Self.AnswerDBTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionDBTable">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AnswerDBTable">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestionDBTable_UserTable">
+    <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+    <End Role="QuestionDBTable" Type="Self.QuestionDBTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserTable">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="QuestionDBTable">
+        <PropertyRef Name="UserName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AnswerDBTables" EntityType="Self.AnswerDBTable" />
+    <EntitySet Name="QuestionDBTables" EntityType="Self.QuestionDBTable" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="UserTables" EntityType="Self.UserTable" />
+    <AssociationSet Name="FK_AnswerDBTable_QuestionDBTable" Association="Self.FK_AnswerDBTable_QuestionDBTable">
+      <End Role="QuestionDBTable" EntitySet="QuestionDBTables" />
+      <End Role="AnswerDBTable" EntitySet="AnswerDBTables" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuestionDBTable_UserTable" Association="Self.FK_QuestionDBTable_UserTable">
+      <End Role="UserTable" EntitySet="UserTables" />
+      <End Role="QuestionDBTable" EntitySet="QuestionDBTables" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

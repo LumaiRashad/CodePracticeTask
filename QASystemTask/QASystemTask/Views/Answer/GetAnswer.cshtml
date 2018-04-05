@@ -1,0 +1,22 @@
+﻿@model QASystemTask.Models.AnswerDBTable
+@{
+    ViewBag.Title = "GetAnswer";
+}
+
+<h2>Add an Answer</h2>
+
+@using (Html.BeginForm("CreateAnswer", "Answer"))
+{
+     <div class="form.group" style="height: 50px; margin: 2%">
+        @Html.ValidationMessageFor(x => x.AnswerString)
+        @Html.TextAreaFor(x => x.AnswerString, new { @class = "form-control" })
+    </div>
+    
+    <div class="form.group" style= "margin: 3%">
+        <button class="btn btn-primary" type="submit">
+            ANSWER
+        </button>
+    </div>
+}
+
+

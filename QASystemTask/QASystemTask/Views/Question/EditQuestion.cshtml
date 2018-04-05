@@ -1,0 +1,22 @@
+﻿@model QASystemTask.Models.QuestionDBTable
+@{
+    ViewBag.Title = "GetQuestion";
+}
+
+<h2>Edit Your Question</h2>
+
+
+@using (Html.BeginForm("UpdateQuestion", "Question"))
+{
+    <div class="form.group" style="height: 50px; margin: 2%">
+        @Html.ValidationMessageFor(x => x.QuestionString)
+        @Html.TextAreaFor(x => x.QuestionString, new { @class = "form-control" })
+    </div>
+
+
+    <div class="form.group" style="margin: 3%">
+        <button class="btn btn-primary" type="submit">
+            Edit
+        </button>
+    </div>
+}

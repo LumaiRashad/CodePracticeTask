@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h1>Log Out QA System</h1>
+
+<strong>Goodbye @HttpContext.Current.User.Identity.Name!</strong>
+
+@if (Request.IsAuthenticated)
+{<div style=" margin: 0.7%">
+      <strong>  @Html.ActionLink("Log out", "Logout", "User") </strong>
+    </div>
+}
+
