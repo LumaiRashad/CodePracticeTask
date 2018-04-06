@@ -13,11 +13,11 @@ namespace QASystemTask.Controllers
     [Authorize]
     public class QuestionController : Controller
     {
-        DBEntities DBContext = new DBEntities();
 
         #region Get All Question in Database
         public ActionResult Index()
         {
+            DBEntities DBContext = new DBEntities();
             return View(DBContext.QuestionDBTables.ToList());
         }
         #endregion
@@ -30,6 +30,7 @@ namespace QASystemTask.Controllers
         [HttpPost]
         public ActionResult CreateQuestion(QuestionDBTable Obj)
         {
+            DBEntities DBContext = new DBEntities();
             if (!ModelState.IsValid)
                 return View("GetQuestion", Obj);
             try
@@ -54,6 +55,7 @@ namespace QASystemTask.Controllers
         }
         public ActionResult UpdateQuestion(QuestionDBTable Obj)
         {
+            DBEntities DBContext = new DBEntities();
             int QuestionIDKey = Convert.ToInt32(TempData["QuestionIDKey"]);
             Obj.UserName = User.Identity.Name;
             if (!ModelState.IsValid)
@@ -79,6 +81,7 @@ namespace QASystemTask.Controllers
         #region Delete Question
         public ActionResult DeleteQuestion(int id)
         {
+            DBEntities DBContext = new DBEntities();
             QuestionDBTable Temp = DBContext.QuestionDBTables.FirstOrDefault(x => x.ID == id);
             if(Temp!= null)
             {

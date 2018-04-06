@@ -12,10 +12,10 @@ namespace QASystemTask.Controllers
     [Authorize]
     public class AnswerController : Controller
     {
-        DBEntities DBContext = new DBEntities();
         #region Get Answers of Certain Question
         public ActionResult Index(int id)
         {
+            DBEntities DBContext = new DBEntities();
             IEnumerable<AnswerDBTable> Selected = DBContext.AnswerDBTables.Where(x => x.QuestionID == id);
             List<AnswerDBTable> SelectedAnswers = Selected.ToList();
             QuestionDBTable QuestionSelected = DBContext.QuestionDBTables.First(x => x.ID == id);
@@ -41,6 +41,7 @@ namespace QASystemTask.Controllers
         }
         public ActionResult CreateAnswer(AnswerDBTable Obj)
         {
+            DBEntities DBContext = new DBEntities();
             int QuesID = Convert.ToInt32(TempData["QID"]);
             Obj.QuestionID = QuesID;
 

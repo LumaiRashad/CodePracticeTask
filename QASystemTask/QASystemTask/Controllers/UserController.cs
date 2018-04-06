@@ -10,8 +10,6 @@ namespace QASystemTask.Controllers
 {
     public class UserController : Controller
     {
-        DBEntities DBContext = new DBEntities();
-
         #region Registering User
         [HttpGet]
         public ActionResult GetUser()
@@ -22,6 +20,7 @@ namespace QASystemTask.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateUser(UserTable user)
         {
+            DBEntities DBContext = new DBEntities();
             if (!ModelState.IsValid)
                 return View("GetUser", user);
             try
@@ -53,6 +52,7 @@ namespace QASystemTask.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(UserLogin user, string ReturnUrl)
         {
+            DBEntities DBContext = new DBEntities();
             var Temp = DBContext.UserTables.Where(x => x.UserName == user.UserName).FirstOrDefault();
 
             if(Temp != null)
@@ -109,6 +109,7 @@ namespace QASystemTask.Controllers
         [Authorize]
         public ActionResult ListQuestions(string id)
         {
+            DBEntities DBContext = new DBEntities();
             IEnumerable<QuestionDBTable> Selected = DBContext.QuestionDBTables.Where(x => Equals(x.UserName, id));
             List<QuestionDBTable> SelectedQuestions = Selected.ToList();
             return View(SelectedQuestions);
@@ -119,6 +120,7 @@ namespace QASystemTask.Controllers
         [Authorize]
         public ActionResult UserDetails(string id)
         {
+            DBEntities DBContext = new DBEntities();
             UserTable User = DBContext.UserTables.SingleOrDefault(x => Equals(x.UserName, id));
             return View(User);
         }
